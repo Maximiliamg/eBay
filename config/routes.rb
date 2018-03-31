@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :products
   resources :blocked_users
   resources :blockeds
   resources :origins

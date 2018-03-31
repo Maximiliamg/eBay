@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180331183407) do
+ActiveRecord::Schema.define(version: 20180331203830) do
+
+  create_table "blocked_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "origins", force: :cascade do |t|
     t.string "country"
@@ -20,6 +26,21 @@ ActiveRecord::Schema.define(version: 20180331183407) do
     t.string "address"
     t.string "description"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "category"
+    t.string "shipping_description"
+    t.integer "origin_id"
+    t.integer "user_id"
+    t.integer "stock"
+    t.float "price"
+    t.boolean "is_auction", default: false
+    t.boolean "is_used", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
