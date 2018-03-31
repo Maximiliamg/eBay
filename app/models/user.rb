@@ -6,7 +6,8 @@ class User < ApplicationRecord
 
   before_save :format_downcase
 
-  has_many :tokens, dependent: :destroy
+  has_many :tokens, :origins, :products dependent: :destroy
+  has_many :comments
 
   protected
   def format_downcase

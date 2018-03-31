@@ -6,6 +6,7 @@ class Product < ApplicationRecord
 
   belongs_to :user
   has_one :origin
+  has_many :comments dependent: :destroy
 
   protected
     def format_downcase

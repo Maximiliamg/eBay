@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :commments
   resources :products
   resources :blocked_users
   resources :blockeds
