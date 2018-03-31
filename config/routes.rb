@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :bids
   resources :commments
   resources :products
   resources :blocked_users
