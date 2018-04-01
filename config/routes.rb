@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   put 'users', to: 'users#update'
   delete 'users', to: 'users#destroy'
 
+  #resources from session
+  resources :session, only: :create
+  delete 'sessions', to: 'sessions#destroy'
+
 
   resources :carts
   resources :purchases
