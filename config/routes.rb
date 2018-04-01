@@ -19,6 +19,14 @@ Rails.application.routes.draw do
     get 'blocks/admin', to: 'admins#index_block'
   end
 
+  #routes for origins
+  post ':users/origins', to: 'origins#create'
+  put ':users/origins/:id', to: 'origins#update'
+  get ':users/origins', to: 'origins#index'
+  get ':users/origins/:id', to: 'origins#show'
+  delete ':users/origins/:id', to: 'origins#destroy'
+
+
 
   resources :carts
   resources :purchases

@@ -3,39 +3,29 @@ class OriginsController < ApplicationController
 
   # GET /origins
   def index
-    @origins = Origin.all
-
-    render json: @origins
+    render_ok @current_user.origins.all
   end
 
   # GET /origins/1
   def show
-    render json: @origin
+    render_ok @origin
   end
 
   # POST /origins
   def create
-    @origin = Origin.new(origin_params)
-
-    if @origin.save
-      render json: @origin, status: :created, location: @origin
-    else
-      render json: @origin.errors, status: :unprocessable_entity
-    end
+    origin = Origin.new({user:@current_user}.merge origin_params)
+    save_and_render origin
   end
 
   # PATCH/PUT /origins/1
   def update
-    if @origin.update(origin_params)
-      render json: @origin
-    else
-      render json: @origin.errors, status: :unprocessable_entity
-    end
+    @origin.update_attributes origin_params
+    save_and_render @origin
   end
 
   # DELETE /origins/1
   def destroy
-    @origin.destroy
+    render_ok @origin.destroy
   end
 
   private
@@ -46,6 +36,6 @@ class OriginsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def origin_params
-      params.require(:origin).permit(:country, :state, :city, :postal_code, :address, :description, :user_id)
+      params.permit(:country, :state, :city, :postal_code, :address, :description)
     end
 end
