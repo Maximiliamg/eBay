@@ -3,7 +3,7 @@ class OriginsController < ApplicationController
 
   # GET /origins
   def index
-    render_ok @current_user.origins.all
+    render_ok @current_user.origins
   end
 
   # GET /origins/1
