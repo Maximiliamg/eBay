@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180331213642) do
+ActiveRecord::Schema.define(version: 20180401004257) do
 
   create_table "bids", force: :cascade do |t|
     t.integer "user_id"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20180331213642) do
 
   create_table "blocked_users", force: :cascade do |t|
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "purchase_id"
+    t.integer "product_id"
+    t.integer "quantity", default: 1
+    t.integer "buyer_score", default: 0
+    t.integer "seller_score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,6 +67,12 @@ ActiveRecord::Schema.define(version: 20180331213642) do
     t.float "price"
     t.boolean "is_auction", default: false
     t.boolean "is_used", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.integer "buyer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
