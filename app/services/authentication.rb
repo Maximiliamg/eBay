@@ -25,7 +25,7 @@ class Authentication
     @user = nil unless @user && @user.authenticate(credentials[:password].to_s.downcase) 
     @errors[:single_authentication] = 'invalid credentials' unless @user
     if @user
-      @user = nil unless @user.block.nil?
+      @user = nil unless @user.blocked_user.nil?
       @errors[:single_authentication] = 'user is blocked' unless @user
     end
   end

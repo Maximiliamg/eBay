@@ -7,6 +7,10 @@ class UsersController < ApplicationController
     render_ok User.all
   end
 
+  def show
+    render_ok @user
+  end
+
   def create
     user = User.new user_params
     save_and_render user

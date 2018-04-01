@@ -7,8 +7,17 @@ Rails.application.routes.draw do
   delete 'users', to: 'users#destroy'
 
   #resources from session
-  resources :session, only: :create
+  resources :sessions, only: :create
   delete 'sessions', to: 'sessions#destroy'
+
+  #routes for admins
+  namespace :users do
+    put ':user_id/admin', to: 'admins#update'
+    delete ':user_id/admin', to: 'admins#destroy'
+    get ':user_id/block/admin' , to: 'admins#block'
+    get ':user_id/unblock/admin', to: 'admins#unblock'
+    get 'blocks/admin', to: 'admins#index_block'
+  end
 
 
   resources :carts

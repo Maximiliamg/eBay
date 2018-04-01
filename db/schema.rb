@@ -72,14 +72,14 @@ ActiveRecord::Schema.define(version: 20180401004257) do
   end
 
   create_table "purchases", force: :cascade do |t|
-    t.integer "buyer_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "tokens", force: :cascade do |t|
     t.string "secret"
-    t.date "expired_at"
+    t.date "expire_at"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
