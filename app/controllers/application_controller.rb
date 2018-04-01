@@ -15,7 +15,6 @@ class ApplicationController < ActionController::API
       @token = Token.find_by(secret: key)
       @current_user = @token.user if @token
     end
-    set_user_by_token
     raise Exceptions::CurrentUserNotFound unless @current_user
   end
 

@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+
+  #resources from user
+  resources :users, only: [:index, :show, :create]
+  # get 'users/:id', to: 'users#show' #What the code up do...
+  put 'users', to: 'users#update'
+  delete 'users', to: 'users#destroy'
+
+
   resources :carts
   resources :purchases
   resources :bids
