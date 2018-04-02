@@ -19,13 +19,21 @@ class OriginsController < ApplicationController
 
   # PATCH/PUT /origins/1
   def update
-    @origin.update_attributes origin_params
-    save_and_render @origin
+    if @origin.user_id == @current_user.user_id
+      @origin.update_attributes origin_params
+      save_and_render @origin
+    else
+      permissions_error
+    end
   end
 
   # DELETE /origins/1
   def destroy
-    render_ok @origin.destroy
+    if @origin.user_id == @current_user.user_id
+      render_ok @origin.destroy
+    else
+      permissions_error
+    end
   end
 
   private

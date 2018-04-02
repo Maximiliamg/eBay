@@ -1,20 +1,8 @@
 Rails.application.routes.draw do
 
   #resources from user
-  resources :users, only: [:index, :show, :create] do
-    #routes for origins
-    collection do
-      post 'origins', to: 'origins#create'
-      put 'origins/:id', to: 'origins#update'
-      get 'origins', to: 'origins#index'
-      get 'origins/:id', to: 'origins#show'
-      delete 'origins/:id', to: 'origins#destroy'
-    end
-  end
-
+  resources :users, only: [:index, :show, :create, :update, :destroy]
   # get 'users/:id', to: 'users#show' #What the code up do...
-  put 'users', to: 'users#update'
-  delete 'users', to: 'users#destroy'
 
   #resources from session
   resources :sessions, only: :create
@@ -22,15 +10,16 @@ Rails.application.routes.draw do
 
   #routes for admins
   namespace :users do
-    put ':user_id/admin', to: 'admins#update'
-    delete ':user_id/admin', to: 'admins#destroy'
     get ':user_id/block/admin' , to: 'admins#block'
     get ':user_id/unblock/admin', to: 'admins#unblock'
     get 'blocks/admin', to: 'admins#index_block'
   end
 
-    
-  
+  #routes for products
+  resources :products, only: [:index, :show, :create, :update, :destroy]
+
+  #routes for origins
+  resources :origins, only: [:index, :show, :create, :update, :destroy]
 
   #resources :carts
   #resources :purchases

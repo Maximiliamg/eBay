@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [:show, :update, :destroy]
   skip_before_action :get_current_user, only: [:index, :show, :create]
 
   def index 
@@ -17,12 +17,21 @@ class UsersController < ApplicationController
   end
 
   def update 
-    @current_user.update_attributes user_params 
-    save_and_render @current_user
+    if @user.user_id == @current_user.user_id
+      @current_user.update_attributes user_params 
+      save_and_render @current_user
+    elsif is_current_user_admin.nil?
+      @current_user.update_attributes({role:params[:role]}.merge user_params)
+      save_and_render @current_user
+    end
   end
 
   def destroy
-    render_ok @current_user.destroy  
+    if @user.user_id == @current_user.user_id
+      render_ok @current_user.destroy
+    elsif is_current_user_admin.nil?
+      render_ok @current_user.destroy
+    end
   end
 
   private 
@@ -36,7 +45,9 @@ class UsersController < ApplicationController
       :name,
       :username,
       :password,
-      :email
+      :email,
+      :birthdate,
+      :gender
     )
   end
 end

@@ -7,10 +7,9 @@ class CreateProducts < ActiveRecord::Migration[5.1]
       t.string :shipping_description
       t.integer :origin_id
       t.integer :user_id
-      t.integer :stock
+      t.integer :stock, default: 1
       t.float :price
-      t.boolean :is_auction, default: 0
-      t.boolean :is_used, default: 0
+      t.boolean :is_used, default: false
 
       t.timestamps
     end

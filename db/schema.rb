@@ -63,9 +63,8 @@ ActiveRecord::Schema.define(version: 20180401004257) do
     t.string "shipping_description"
     t.integer "origin_id"
     t.integer "user_id"
-    t.integer "stock"
+    t.integer "stock", default: 1
     t.float "price"
-    t.boolean "is_auction", default: false
     t.boolean "is_used", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,6 +88,8 @@ ActiveRecord::Schema.define(version: 20180401004257) do
     t.boolean "company", default: false
     t.string "name"
     t.string "email"
+    t.date "birthdate"
+    t.integer "gender", default: 0
     t.string "username"
     t.string "password_digest"
     t.integer "role", default: 0

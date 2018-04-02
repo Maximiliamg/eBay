@@ -1,13 +1,13 @@
 class Product < ApplicationRecord
 
-  validates :name, :category, :shipping_description, :stock, :price, presence: true, on: :create
+  validates :name, :category, :shipping_description, :price, presence: true, on: :create
 
   before_save :format_downcase
 
   belongs_to :user
   has_one :origin
-  has_many :comments, dependent: :destroy
-  has_many :bids, dependent: :destroy
+  #has_one :auction, dependent: :destroy
+  #has_many :comments, dependent: :destroy
 
   protected
     def format_downcase

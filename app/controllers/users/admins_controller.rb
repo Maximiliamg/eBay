@@ -2,15 +2,6 @@ class Users::AdminsController < ApplicationController
   before_action :is_current_user_admin
   before_action :set_user, only: [:update, :destroy, :block]
   
-  def update
-    @user.update_attributes user_params 
-    save_and_render @user
-  end
-
-  def destroy
-    render_ok @user.destroy
-  end
-
   def block
     if !@user.tokens.nil?
       @user.tokens.map do |token| #.map is required to iterate through ActiveRecord::Associations::CollectionProxy element, it is not an array...
@@ -37,16 +28,5 @@ class Users::AdminsController < ApplicationController
   private 
   def set_user
     @user = User.find params[:user_id]
-  end
-
-  def user_params
-    params.permit(
-      :company,
-      :name,
-      :username,
-      :password,
-      :email, 
-      :role
-    )
   end
 end
