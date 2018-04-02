@@ -17,20 +17,21 @@ class UsersController < ApplicationController
   end
 
   def update 
-    if @user.user_id == @current_user.user_id
+    if @user.id == @current_user.id
       @current_user.update_attributes user_params 
       save_and_render @current_user
     elsif is_current_user_admin.nil?
-      @current_user.update_attributes({role:params[:role]}.merge user_params)
-      save_and_render @current_user
+      params[:role] ||= @user.role
+      @user.update_attributes({role:params[:role]}.merge user_params)
+      save_and_render @user
     end
   end
 
   def destroy
-    if @user.user_id == @current_user.user_id
+    if @user.id == @current_user.id
       render_ok @current_user.destroy
     elsif is_current_user_admin.nil?
-      render_ok @current_user.destroy
+      render_ok @user.destroy
     end
   end
 

@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    if @product.user_id == @current_user.user_id
+    if @product.user_id == @current_user.id
       @product.update_attributes product_params
       save_and_render @product
     else
@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
-    if @product.user_id == @current_user.user_id
+    if @product.user_id == @current_user.id
       render_ok @product.destroy
     elsif is_current_user_admin.nil?
       render_ok @product.destroy
