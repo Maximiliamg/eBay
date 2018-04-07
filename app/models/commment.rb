@@ -1,14 +1,8 @@
 class Commment < ApplicationRecord
 
-  validates :comment, presence: true, on: :create
-  before_save :format_downcase
+  validates :commment, presence: true, on: :create
 
   belongs_to :user
   belongs_to :product
-
-  protected
-  def format_downcase
-    self.commment.downcase!
-  end
 
 end

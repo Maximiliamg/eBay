@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    product = Product.new(product_params)
+    product = Product.new({user:@current_user}.merge product_params)
     save_and_render product
   end
 
@@ -54,6 +54,7 @@ class ProductsController < ApplicationController
         :origin_id,
         :stock,
         :price,
-        :is_used)
+        :is_used,
+        :is_auction)
     end
 end

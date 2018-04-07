@@ -11,8 +11,8 @@ class User < ApplicationRecord
   has_many :products, dependent: :destroy
   has_many :bids, dependent: :destroy
   has_many :purchases, dependent: :destroy
-
-  has_many :comments
+  has_many :commments, dependent: :destroy
+  
   has_one :blocked_user, dependent: :destroy
 
   protected

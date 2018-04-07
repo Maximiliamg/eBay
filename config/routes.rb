@@ -16,10 +16,17 @@ Rails.application.routes.draw do
   end
 
   #routes for products
-  resources :products, only: [:index, :show, :create, :update, :destroy]
+  resources :products, only: [:index, :show, :create, :update, :destroy] do
+    #routes for commments
+    resources :commments, only: [:index, :create]
+  end
 
   #routes for origins
   resources :origins, only: [:index, :show, :create, :update, :destroy]
+
+  #routes for commments
+  resources :commments, only: [:show, :destroy]
+  get 'user_commments', to: 'commments#index_user'
 
   #resources :carts
   #resources :purchases
