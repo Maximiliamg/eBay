@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :products, only: [:index, :show, :create, :update, :destroy] do
     #routes for commments
     resources :commments, only: [:index, :create]
+    #routes for bids
+    resources :bids, only: [:index, :create]
   end
 
   #routes for origins
@@ -27,6 +29,10 @@ Rails.application.routes.draw do
   #routes for commments
   resources :commments, only: [:show, :destroy]
   get 'user_commments', to: 'commments#index_user'
+
+  #routes for bids
+  resources :bids, only: [:show]
+  get 'user_bids', to: 'bids#index_user'
 
   #resources :carts
   #resources :purchases
