@@ -34,7 +34,6 @@ Rails.application.routes.draw do
   resources :bids, only: [:show]
   get 'user_bids', to: 'bids#index_user'
 
-  #resources :carts
   #resources :purchases
   #resources :bids
   #resources :commments

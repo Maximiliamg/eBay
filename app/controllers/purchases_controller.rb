@@ -1,41 +1,54 @@
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: [:show, :update, :destroy]
+  before_action :set_purchase, only: [:show, :set_buyer_score, :set_seller_score, :set_was_shipped, :set_was_delivered]
+  before_action :set_product, only: [:create]
 
   # GET /purchases
   def index
-    @purchases = Purchase.all
+    render_ok @current_user.bought_products
+  end
 
-    render json: @purchases
+  def index_sales
+    render_ok @current_user.sold_products
   end
 
   # GET /purchases/1
   def show
-    render json: @purchase
+    render_ok @purchase
+  end
+
+  def set_buyer_score
+    if 0 < params[:buyer_score] and 6 > params[:buyer_score]
+      @purchase.update_attribute(:buyer_score, params[:buyer_score])
+      save_and_render @purchase
+    else
+      render json: {authorization: 'enter a value between 1 and 5'}, status: :unprocessable_entity
+    end
+    
+  end
+
+  def set_seller_score
+    if 0 < params[:seller_score] and 6 > params[:seller_score]
+      @purchase.update_attribute(:seller_score, params[:seller_score])
+      save_and_render @purchase
+    else
+      render json: {authorization: 'enter a value between 1 and 5'}, status: :unprocessable_entity
+    end
+  end
+
+  def set_was_shipped
+    @purchase.update_attribute(:was_shipped, params[true])
+    save_and_render @purchase
+  end
+
+  def set_was_delivered
+    @purchase.update_attribute(:was_delivered, params[true])
+    save_and_render @purchase
   end
 
   # POST /purchases
   def create
-    @purchase = Purchase.new(purchase_params)
-
-    if @purchase.save
-      render json: @purchase, status: :created, location: @purchase
-    else
-      render json: @purchase.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /purchases/1
-  def update
-    if @purchase.update(purchase_params)
-      render json: @purchase
-    else
-      render json: @purchase.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /purchases/1
-  def destroy
-    @purchase.destroy
+    purchase = Purchase.new(buyer_id:@current_user.id, seller_id:@product.user.id, quantity:params[:quantity])
+    save_and_render purchase
   end
 
   private
@@ -46,6 +59,14 @@ class PurchasesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def purchase_params
-      params.require(:purchase).permit(:buyer_id)
+      params.permit(
+        :buyer_id,
+        :seller_id,
+        :quantity,
+        )
+    end
+
+    def set_product
+    @product = Product.find params[:product_id]
     end
 end
