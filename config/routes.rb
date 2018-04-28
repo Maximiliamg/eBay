@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   #resources from user
   resources :users, only: [:index, :show, :create, :update, :destroy]
-  get 'user_seller_score', to: 'users#seller_score'
-  get 'user_buyer_score', to: 'users#buyer_score'
+  get 'user_seller_score/:id', to: 'users#seller_score'
+  get 'user_buyer_score/:id', to: 'users#buyer_score'
 
   #resources from session
   resources :sessions, only: :create
@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get ':user_id/block/admin' , to: 'admins#block'
     get ':user_id/unblock/admin', to: 'admins#unblock'
     get 'blocks/admin', to: 'admins#index_block'
+    post 'auctions', to: 'purchases#finish_auction'
   end
 
   #routes for products
@@ -40,10 +41,10 @@ Rails.application.routes.draw do
   #routes for purchases
   resources :purchases, only: [:index, :show]
   get 'user_sales', to: 'purchases#sold_index'
-  post 'buyer_score', to: 'purchases#set_buyer_score'
-  post 'seller_score', to: 'purchases#set_seller_score'
-  post 'purchase_shipped', to: 'purchases#set_was_shipped'
-  post 'purchase_delivered', to: 'purchases#set_was_delivered'
+  put 'buyer_score', to: 'purchases#set_buyer_score'
+  put 'seller_score', to: 'purchases#set_seller_score'
+  put 'purchase_shipped', to: 'purchases#set_was_shipped'
+  put 'purchase_delivered', to: 'purchases#set_was_delivered'
 
   #resources :bids
   #resources :commments
