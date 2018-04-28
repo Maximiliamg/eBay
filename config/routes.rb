@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
   #resources from user
   resources :users, only: [:index, :show, :create, :update, :destroy]
-  # get 'users/:id', to: 'users#show' #What the code up do...
+  get 'user_seller_score', to: 'users#seller_score'
+  get 'user_buyer_score', to: 'users#buyer_score'
 
   #resources from session
   resources :sessions, only: :create
@@ -21,6 +22,8 @@ Rails.application.routes.draw do
     resources :commments, only: [:index, :create]
     #routes for bids
     resources :bids, only: [:index, :create]
+    #routes for purchases
+    resources :purchases, only: [:create]
   end
 
   #routes for origins
@@ -34,7 +37,14 @@ Rails.application.routes.draw do
   resources :bids, only: [:show]
   get 'user_bids', to: 'bids#index_user'
 
-  #resources :purchases
+  #routes for purchases
+  resources :purchases, only: [:index, :show]
+  get 'user_sales', to: 'purchases#sold_index'
+  post 'buyer_score', to: 'purchases#set_buyer_score'
+  post 'seller_score', to: 'purchases#set_seller_score'
+  post 'purchase_shipped', to: 'purchases#set_was_shipped'
+  post 'purchase_delivered', to: 'purchases#set_was_delivered'
+
   #resources :bids
   #resources :commments
   #resources :products

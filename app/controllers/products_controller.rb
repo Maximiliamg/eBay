@@ -21,11 +21,13 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    if @product.user_id == @current_user.id
-      @product.update_attributes product_params
-      save_and_render @product
-    else
-      permissions_error
+    if product_does_not_have_purchases?
+      if @product.user_id == @current_user.id
+        @product.update_attributes product_params 
+        save_and_render @product
+      else
+        permissions_error
+      end
     end
   end
 
@@ -42,6 +44,14 @@ class ProductsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
+    end
+
+    def product_does_not_have_purchases?
+      if @product.purchases.empty? 
+        true 
+      else  
+        render json: {authorization: 'You can not edit/destroy products that users already bought, we have to preserve the history'}, status: :unprocessable_entity
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
