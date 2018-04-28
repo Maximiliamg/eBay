@@ -23,7 +23,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors', '~> 1.0.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -39,3 +39,12 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
+
+Cloudinary.config do |config|
+  config.cloud_name = 'da3roqfxv'
+  config.api_key = '359564543977993'
+  config.api_secret = '-l-fHrun4gXqlO7zxmt4HEkMbc0'
+  config.secure = true
+  config.cdn_subdomain = true
+
+gem 'cloudinary', '~> 1.9.1'
