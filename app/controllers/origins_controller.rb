@@ -27,7 +27,12 @@ class OriginsController < ApplicationController
 
   # DELETE /origins/1
   def destroy
-    render_ok @origin.destroy if is_my_origin? and is_not_a_product_associated?
+    if is_my_origin? 
++      if is_not_a_purchase_associated?
++        @origin.update_attributes origin_params 
++        save_and_render @origin
++      end
+    end
   end
 
   private
@@ -37,24 +42,26 @@ class OriginsController < ApplicationController
     end
 
     def is_my_origin?
-      if @origin.user.id == @current_user.id then true else permissions_error end
+      if @origin.user.id == @current_user.id then true else permissions_error ; false end
     end
 
     def is_not_a_product_associated?
-      if Product.Where(origin:@origin).empty?
+      if Product.Where(origin_id:@origin.id).empty?
         true
       else
         render json: {authorization: 'You can not edit/destroy origin with products associated'}, status: :unprocessable_entity
+        false
       end
     end 
 
     def is_not_a_purchase_associated?
       render = false
-      Product.where(origin:@origin).map { |product| if !product.purchases.empty? then render = true ; break end }
+      Product.where(origin_id:@origin.id).map { |product| if !product.purchases.empty? then render = true ; break end }
       if !render
         true 
       else  
         render json: {authorization: 'You can not edit/destroy products that users already bought, we have to preserve the history'}, status: :unprocessable_entity
+        false
       end
     end
 

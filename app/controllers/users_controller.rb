@@ -13,7 +13,17 @@ class UsersController < ApplicationController
 
   def create
     user = User.new user_params
-    save_and_render user
+    was_saved = user.save
+    if was_saved
+      trans = Transmission.new
+      if trans.create_picture(params, user) or trans.empty_params 
+        render_ok user
+      else
+        render json: {errors: trans.errors, user: user}, status: :unprocessable_entity
+      end
+    else
+      render json: user.errors, status: :unprocessable_entity
+    end
   end
 
   def update 

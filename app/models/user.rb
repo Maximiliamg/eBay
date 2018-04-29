@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   before_save :format_downcase
 
+  belongs_to :picture, optional: true, dependent: :destroy
+
   has_many :tokens, dependent: :destroy
   has_many :origins, dependent: :destroy
   has_many :products, dependent: :destroy

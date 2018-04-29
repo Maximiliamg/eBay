@@ -5,7 +5,7 @@ class CommmentsController < ApplicationController
 
   # GET /commments
   def index
-    render json: @product.commments.to_json(:include => { :user => {:only => :username} }), status: :ok
+    render json: @product.commments
   end
   
   def index_user

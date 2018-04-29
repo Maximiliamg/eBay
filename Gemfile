@@ -19,6 +19,9 @@ gem 'puma', '~> 3.7'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# Use Active Model Serializers to make custom jsons easily
+gem 'active_model_serializers' 
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -39,12 +42,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
-
-Cloudinary.config do |config|
-  config.cloud_name = 'da3roqfxv'
-  config.api_key = '359564543977993'
-  config.api_secret = '-l-fHrun4gXqlO7zxmt4HEkMbc0'
-  config.secure = true
-  config.cdn_subdomain = true
 
 gem 'cloudinary', '~> 1.9.1'

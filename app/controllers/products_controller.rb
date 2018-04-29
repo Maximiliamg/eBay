@@ -16,7 +16,14 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     product = Product.new({user:@current_user}.merge product_params)
-    save_and_render product
+    was_saved = product.save 
+    if was_saved
+      trans = Transmission.new
+      trans.create_pictures(params, product)
+      if !trans.pictures.empty? or trans.empty_params
+        render_ok product
+      else render json: trans.errors, status: :unprocessable_entity end
+    else render json: product.errors, status: :unprocessable_entity end
   end
 
   # PATCH/PUT /products/1

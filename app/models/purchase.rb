@@ -5,5 +5,5 @@ class Purchase < ApplicationRecord
   	belongs_to :buyer, :class_name => 'User'
   	belongs_to :destiny, :class_name => 'Origin'
 
-  	belongs_to :destiny, optional: true, :class_name => 'Origin'
+  	belongs_to :destiny, optional: true, class_name: Origin, foreign_key: :origin_id
 end
