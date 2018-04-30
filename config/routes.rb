@@ -18,9 +18,9 @@ Rails.application.routes.draw do
   end
 
   namespace :products do
-    put ':product_id/block_product' , to: 'admins#block_product'
-    put ':product_id/unblock_product', to: 'admins#unblock_product'
-    get 'product_blocks/admin', to: 'admins#index_block_products'
+    put ':product_id/block', to: 'admins#block'
+    put ':product_id/unblock', to: 'admins#unblock'
+    get 'blocks/admin', to: 'admins#index_block'
   end
 
   #routes for products

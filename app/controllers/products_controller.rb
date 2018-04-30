@@ -75,7 +75,7 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update
     if product_does_not_have_purchases?
-      if product_is_blocked?
+      if product_not_blocked?
         if @product.user_id == @current_user.id
           @product.update_attributes product_params 
           save_and_render @product
@@ -89,7 +89,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     if product_does_not_have_purchases?
-      if product_is_blocked?
+      if product_not_blocked?
         if @product.user_id == @current_user.id
           render_ok @product.destroy
         elsif is_current_user_admin.nil?
@@ -113,8 +113,8 @@ class ProductsController < ApplicationController
       end
     end
 
-    def product_is_blocked?
-      if @product.blocked_product.empty? then true else render json: {authorization: 'product is blocked'}, status: :unprocessable_entity end
+    def product_not_blocked?
+      if @product.blocked_product.nil? then true else render json: {authorization: 'product is blocked'}, status: :unprocessable_entity end
     end
 
     # Only allow a trusted parameter "white list" through.
