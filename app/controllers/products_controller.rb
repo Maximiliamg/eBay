@@ -110,11 +110,12 @@ class ProductsController < ApplicationController
         true 
       else  
         render json: {authorization: 'You can not edit/destroy products that users already bought, we have to preserve the history'}, status: :unprocessable_entity
+        false
       end
     end
 
     def product_not_blocked?
-      if @product.blocked_product.nil? then true else render json: {authorization: 'product is blocked'}, status: :unprocessable_entity end
+      if @product.blocked_product.nil? then true else render json: {authorization: 'product is blocked'}, status: :unprocessable_entity ; false end
     end
 
     # Only allow a trusted parameter "white list" through.
