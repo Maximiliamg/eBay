@@ -75,11 +75,13 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update
     if product_does_not_have_purchases?
-      if @product.user_id == @current_user.id
-        @product.update_attributes product_params 
-        save_and_render @product
-      else
-        permissions_error
+      if product_is_blocked?
+        if @product.user_id == @current_user.id
+          @product.update_attributes product_params 
+          save_and_render @product
+        else
+          permissions_error
+        end
       end
     end
   end
@@ -87,13 +89,15 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     if product_does_not_have_purchases?
-       if @product.user_id == @current_user.id
-         render_ok @product.destroy
-       elsif is_current_user_admin.nil?
-         render_ok @product.destroy
-       end
-     end
-   end
+      if product_is_blocked?
+        if @product.user_id == @current_user.id
+          render_ok @product.destroy
+        elsif is_current_user_admin.nil?
+          render_ok @product.destroy
+        end
+      end
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -107,6 +111,10 @@ class ProductsController < ApplicationController
       else  
         render json: {authorization: 'You can not edit/destroy products that users already bought, we have to preserve the history'}, status: :unprocessable_entity
       end
+    end
+
+    def product_is_blocked?
+      if @product.blocked_product.empty? then true else render json: {authorization: 'product is blocked'}, status: :unprocessable_entity end
     end
 
     # Only allow a trusted parameter "white list" through.

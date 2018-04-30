@@ -6,4 +6,5 @@ class ProductSerializer < ActiveModel::Serializer
   belongs_to :origin
   has_many :bids 
   has_many :product_picture
+  has_one :blocked_product
 end

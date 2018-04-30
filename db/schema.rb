@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180428234626) do
+ActiveRecord::Schema.define(version: 20180430083512) do
 
   create_table "bids", force: :cascade do |t|
     t.integer "user_id"
     t.integer "product_id"
     t.float "bid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "blocked_products", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "blocked_quantity", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

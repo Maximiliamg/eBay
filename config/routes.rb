@@ -17,6 +17,12 @@ Rails.application.routes.draw do
     get 'blocks/admin', to: 'admins#index_block'
   end
 
+  namespace :products do
+    put ':product_id/block_product' , to: 'admins#block_product'
+    put ':product_id/unblock_product', to: 'admins#unblock_product'
+    get 'product_blocks/admin', to: 'admins#index_block_products'
+  end
+
   #routes for products
   resources :products, only: [:index, :show, :create, :update, :destroy] do
     #routes for commments
