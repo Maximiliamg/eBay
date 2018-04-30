@@ -19,19 +19,20 @@ class OriginsController < ApplicationController
 
   # PATCH/PUT /origins/1
   def update
-    if is_my_origin? and is_not_a_purchase_associated?
-      @origin.update_attributes origin_params
-      save_and_render @origin
+    if is_my_origin? 
+      if is_not_a_purchase_associated?
+        @origin.update_attributes origin_params 
+        save_and_render @origin
+      end
     end
   end
 
   # DELETE /origins/1
   def destroy
-    if is_my_origin? 
-+      if is_not_a_purchase_associated?
-+        @origin.update_attributes origin_params 
-+        save_and_render @origin
-+      end
+    if is_my_origin?
+      if is_not_a_product_associated?
+        render_ok @origin.destroy
+      end
     end
   end
 
@@ -46,7 +47,7 @@ class OriginsController < ApplicationController
     end
 
     def is_not_a_product_associated?
-      if Product.Where(origin_id:@origin.id).empty?
+      if Product.where(origin_id:@origin.id).empty?
         true
       else
         render json: {authorization: 'You can not edit/destroy origin with products associated'}, status: :unprocessable_entity

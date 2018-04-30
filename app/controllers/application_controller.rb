@@ -17,6 +17,14 @@ class ApplicationController < ActionController::API
     raise Exceptions::CurrentUserNotFound unless @current_user
   end
 
+  def set_user_by_token
+    @current_user = nil
+    authenticate_with_http_token do |key, options|
+      @token = Token.find_by(secret: key)
+      @current_user = @token.user if @token
+    end
+  end
+
   def is_current_user_admin
     permissions_error unless @current_user.role.eql? "admin" 
   end

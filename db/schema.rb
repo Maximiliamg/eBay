@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180401004257) do
+ActiveRecord::Schema.define(version: 20180428234626) do
 
   create_table "bids", force: :cascade do |t|
     t.integer "user_id"
@@ -22,16 +22,6 @@ ActiveRecord::Schema.define(version: 20180401004257) do
 
   create_table "blocked_users", force: :cascade do |t|
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "carts", force: :cascade do |t|
-    t.integer "purchase_id"
-    t.integer "product_id"
-    t.integer "quantity", default: 1
-    t.integer "buyer_score", default: 0
-    t.integer "seller_score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -56,6 +46,20 @@ ActiveRecord::Schema.define(version: 20180401004257) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pictures", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_pictures", force: :cascade do |t|
+    t.integer "picture_id"
+    t.integer "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -67,14 +71,26 @@ ActiveRecord::Schema.define(version: 20180401004257) do
     t.float "price"
     t.boolean "is_used", default: false
     t.boolean "is_auction", default: false
+    t.integer "picture_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "purchases", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "seller_id"
+    t.integer "buyer_id"
+    t.integer "origin_id"
+    t.integer "product_id"
+    t.integer "quantity", default: 1
+    t.float "total_price"
+    t.integer "buyer_score"
+    t.integer "seller_score"
+    t.boolean "was_shipped", default: false
+    t.boolean "was_delivered", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["buyer_id"], name: "index_purchases_on_buyer_id"
+    t.index ["seller_id"], name: "index_purchases_on_seller_id"
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -94,6 +110,7 @@ ActiveRecord::Schema.define(version: 20180401004257) do
     t.string "username"
     t.string "password_digest"
     t.integer "role", default: 0
+    t.integer "picture_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

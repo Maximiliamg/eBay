@@ -23,7 +23,7 @@ User.create(
     gender:0,
     email:"john@test.com"
     )
-
+#normal
 t = Token.create(
     secret:"c7943442979a4d41a493684bb172ae57", 
     expire_at:"2018-04-20", 
@@ -31,6 +31,7 @@ t = Token.create(
     )
 t.update_attribute(:secret, "c7943442979a4d41a493684bb172ae57")
 
+#admin
 t = Token.create(
     secret:"1176d87103eb423fabb3c67ed952749d", 
     expire_at:"2018-04-20", 
